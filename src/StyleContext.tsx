@@ -81,10 +81,19 @@ export interface StyleContextProps {
   layer?: boolean;
 }
 
+let mybricksContainer: any;
+
 const StyleContext = React.createContext<StyleContextProps>({
-  hashPriority: 'low',
+  hashPriority: 'high',
   cache: createCache(),
   defaultCache: true,
+  get container() {
+    if (!mybricksContainer) {
+      // 默认写入mybricks引擎
+      mybricksContainer = document.querySelector("#_mybricks-geo-webview_")?.shadowRoot || document.head
+    }
+    return mybricksContainer;
+  }
 });
 
 export type StyleProviderProps = Partial<StyleContextProps> & {
